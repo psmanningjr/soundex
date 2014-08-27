@@ -7,6 +7,11 @@ add_definitions(-std=c++0x -v)
 
 set(CMAKE_CXX_FLAGS "${CMAXE_CXX_FLAGS} -Wall")
 
+set(SRC_LIST
+    main.cpp
+    SoundexTest.cpp
+    soundex.h
+    soundex.cpp)
 
 
 aux_source_directory(. SRC_LIST)
