@@ -2,31 +2,34 @@
 #include <cstring>
 #include <algorithm>
 #include <ctype.h>
+#include <unordered_map>
 
 using namespace std;
+
+const char notADigit{'*'};
 
 class consanantsToNumber: unary_function<char, char> {
 public:
   result_type operator()(argument_type letter)
   {
-      char lowerLetter = tolower(letter);
-      if (lowerLetter == 'b')
+      const unordered_map<char, char> encodings
       {
-          return (result_type)'1';
-      }
-      if (lowerLetter == 'z')
-      {
-          return (result_type)'2';
-      }
-      if (lowerLetter == 'd')
-      {
-          return (result_type)'3';
-      }
-      if (lowerLetter == 'l')
-      {
-          return (result_type)'4';
-      }
-    return (result_type)'*';
+          {'b','1'}, {'f','1'}, {'p','1'}, {'v','1'},
+
+          {'c','2'}, {'g','2'}, {'j','2'}, {'k','2'}, {'q','2'},
+          {'s','2'}, {'x','2'}, {'z','2'}, {'k','2'},
+
+          {'d','3'}, {'t','3'},
+
+          {'l','4'},
+
+          {'m','5'}, {'n','5'},
+
+          {'r','6'}
+      };
+      auto encodeResult = encodings.find(tolower(letter));
+
+      return encodeResult == encodings.end() ? (result_type) notADigit : (result_type) encodeResult->second;
   }
 };
 

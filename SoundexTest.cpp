@@ -9,12 +9,17 @@ public:
     Soundex soundex;
 };
 
-TEST_F(SoundexEncoding, GivenAStringSoundexEncodeReturnsFirstCharInUpperCase)
+TEST_F(SoundexEncoding, GivenAWordSoundexEncodeReturnsFirstCharInUpperCase)
 {
     ASSERT_THAT(soundex.encode("abcde").substr(0,1), Eq("A"));
 }
 
-TEST_F(SoundexEncoding, GivenAStringSoundexEncodeConvertsConsanantsbdlAftertheFirstToNumbers)
+TEST_F(SoundexEncoding, GivenAWordSoundexEncodeConvertsConsanantsbdlAftertheFirstCharToNumbers)
 {
     ASSERT_THAT(soundex.encode("zbdl"), Eq("Z134"));
+}
+
+TEST_F(SoundexEncoding, GivenAWordSoundexEncodeConvertsFullSetOfConsanantsAfterTheFirstCharToNumbers)
+{
+    ASSERT_THAT(soundex.encode("mrmj"), Eq("M652"));
 }
