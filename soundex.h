@@ -16,7 +16,7 @@ private:
     string encodeNonFirstLetters(const string& word);
     string convertLettersToNumbers(const string& word);
     string removeDuplicates(const string& word);
-//    int consanantsToNumber(int letter);
+    bool emptyString(const string& word);
 };
 
 #endif // SOUNDEX_H

@@ -33,3 +33,8 @@ TEST_F(SoundexEncoding, GivenAWordWhereFirstLetterWouldCodeToSameAsSecondLeterTh
 {
     ASSERT_THAT(soundex.encode("xJrmD"), Eq("X653"));
 }
+
+TEST_F(SoundexEncoding, GivenAnEmptyStringEncodeShouldReturnEmptyString)
+{
+    ASSERT_THAT(soundex.encode(""), Eq(""));
+}

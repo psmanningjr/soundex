@@ -82,7 +82,16 @@ Soundex::Soundex()
 
 string Soundex::encode(const string& word)
 {
+    if (emptyString(word))
+    {
+        return "";
+    }
    return firstLetterToUpperCase(encodeNonFirstLetters(word));
+}
+
+bool Soundex::emptyString(const string& word)
+{
+    return (word.length() == 0);
 }
 
 string Soundex::firstLetterToUpperCase(const string& word)
