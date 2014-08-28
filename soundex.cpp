@@ -10,7 +10,7 @@ const char notADigit{'*'};
 
 class consanantsToNumber: unary_function<char, char> {
 public:
-  result_type operator()(argument_type letter)
+  result_type operator () (argument_type letter)
   {
       const unordered_map<char, char> encodings
       {
@@ -33,6 +33,48 @@ public:
   }
 };
 
+struct NoDupString
+{
+public:
+    NoDupString()
+    {
+        noDupString = "";
+    }
+
+    void operator() (char letter)
+    {
+        if (EmptyString() ||
+            differentLetter(letter))
+        {
+            addLetter(letter);
+        }
+    }
+
+    string noDupString;
+
+private:
+
+    bool EmptyString()
+    {
+        return (noDupString.length() == 0);
+    }
+
+    bool differentLetter(char letter)
+    {
+        return (letter != lastLetterAdded());
+    }
+
+    char lastLetterAdded()
+    {
+        return noDupString[noDupString.length()-1];
+    }
+
+    void addLetter(char letter)
+    {
+        noDupString.push_back(letter);
+    }
+
+};
 
 Soundex::Soundex()
 {
@@ -40,7 +82,7 @@ Soundex::Soundex()
 
 string Soundex::encode(const string& word)
 {
-   return firstLetterToUpperCase(convertNonFirstLettersToNumbers(word));
+   return firstLetterToUpperCase(encodeNonFirstLetters(word));
 }
 
 string Soundex::firstLetterToUpperCase(const string& word)
@@ -50,9 +92,21 @@ string Soundex::firstLetterToUpperCase(const string& word)
     return newStr;
 }
 
+string Soundex::encodeNonFirstLetters(const string& word)
+{
+    return removeDuplicates(convertNonFirstLettersToNumbers(word));
+}
+
 string Soundex::convertNonFirstLettersToNumbers(const string& word)
 {
    string numStr = word;
    transform(word.begin()+1,word.end(),numStr.begin()+1,::consanantsToNumber());
    return numStr;
 }
+
+string Soundex::removeDuplicates(const string& word)
+{
+    NoDupString newStr = for_each(word.begin(), word.end(), NoDupString());
+    return newStr.noDupString;
+}
+

@@ -23,3 +23,8 @@ TEST_F(SoundexEncoding, GivenAWordSoundexEncodeConvertsFullSetOfConsanantsAfterT
 {
     ASSERT_THAT(soundex.encode("mrmj"), Eq("M652"));
 }
+
+TEST_F(SoundexEncoding, GivenAWordWhereAdjacentLettersEncodeTheSameThenKeepTheFirst)
+{
+    ASSERT_THAT(soundex.encode("xDtNmpv"), Eq("X351"));
+}
