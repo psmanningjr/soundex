@@ -25,7 +25,9 @@ public:
 
           {'m','5'}, {'n','5'},
 
-          {'r','6'}
+          {'r','6'},
+          {'h','H'},
+          {'g','G'}
       };
       auto encodeResult = encodings.find(tolower(letter));
 
@@ -44,7 +46,7 @@ public:
     void operator() (char letter)
     {
         if (EmptyString() ||
-            differentLetter(letter))
+            differentAdjacentLetter(letter))
         {
             addLetter(letter);
         }
@@ -59,7 +61,7 @@ private:
         return (noDupString.length() == 0);
     }
 
-    bool differentLetter(char letter)
+    bool differentAdjacentLetter(char letter)
     {
         return (letter != lastLetterAdded());
     }
@@ -104,6 +106,7 @@ string Soundex::firstLetterToUpperCase(const string& word)
 string Soundex::encodeNonFirstLetters(const string& word)
 {
     string numEncodedStr = removeDuplicates(convertLettersToNumbers(word));
+    numEncodedStr = removeDuplicatesAroundH(numEncodedStr);
     return word.substr(0,1).append(numEncodedStr.substr(1,numEncodedStr.length()-1));
 }
 
@@ -120,3 +123,55 @@ string Soundex::removeDuplicates(const string& word)
     return newStr.noDupString;
 }
 
+string Soundex::removeDuplicatesAroundH(const string& word)
+{
+    newStr = word;
+    if (anotherHFound())
+    {
+        if (dupAroundH())
+        {
+            removeHAndLetterAfter();
+        }
+        else
+        {
+            removeH();
+        }
+    }
+    return newStr;
+}
+
+bool Soundex::dupAroundH()
+{
+    return (letterBeforeH() && letterAfterH() && sameCodeBeforeAndAfterH());
+}
+
+bool Soundex::letterBeforeH()
+{
+    return(indexOfH >0);
+}
+
+bool Soundex::letterAfterH()
+{
+    return(indexOfH < newStr.length());
+}
+
+bool Soundex::sameCodeBeforeAndAfterH()
+{
+    return(newStr[indexOfH-1] == newStr[indexOfH+1]);
+}
+
+bool Soundex::anotherHFound()
+{
+    indexOfH = newStr.find("H");
+    return (indexOfH != string::npos);
+}
+
+void Soundex::removeH()
+{
+    newStr.erase(indexOfH,1);
+}
+
+void Soundex::removeHAndLetterAfter()
+{
+    newStr.erase(indexOfH,2);
+}

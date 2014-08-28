@@ -38,3 +38,8 @@ TEST_F(SoundexEncoding, GivenAnEmptyStringEncodeShouldReturnEmptyString)
 {
     ASSERT_THAT(soundex.encode(""), Eq(""));
 }
+
+TEST_F(SoundexEncoding, GivenWordWithSameCodewithHBetweenThenEncodeRetainsFirstAndRemovesH)
+{
+    ASSERT_THAT(soundex.encode("GhcrLf"), Eq("G641"));
+}
