@@ -126,7 +126,7 @@ string Soundex::removeDuplicates(const string& word)
 string Soundex::removeDuplicatesAroundH(const string& word)
 {
     newStr = word;
-    if (anotherHFound())
+    while (anotherHFound())
     {
         if (dupAroundH())
         {

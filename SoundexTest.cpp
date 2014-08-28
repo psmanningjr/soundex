@@ -43,3 +43,8 @@ TEST_F(SoundexEncoding, GivenWordWithSameCodewithHBetweenThenEncodeRetainsFirstA
 {
     ASSERT_THAT(soundex.encode("GhcrLf"), Eq("G641"));
 }
+
+TEST_F(SoundexEncoding, GivenWordWithSameCodewithHBetweenMultipleTimesThenEncodeRetainsFirstAndRemovesH)
+{
+    ASSERT_THAT(soundex.encode("GhcrLfhp"), Eq("G641"));
+}
