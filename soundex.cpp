@@ -94,13 +94,14 @@ string Soundex::firstLetterToUpperCase(const string& word)
 
 string Soundex::encodeNonFirstLetters(const string& word)
 {
-    return removeDuplicates(convertNonFirstLettersToNumbers(word));
+    string numEncodedStr = removeDuplicates(convertLettersToNumbers(word));
+    return word.substr(0,1).append(numEncodedStr.substr(1,numEncodedStr.length()-1));
 }
 
-string Soundex::convertNonFirstLettersToNumbers(const string& word)
+string Soundex::convertLettersToNumbers(const string& word)
 {
    string numStr = word;
-   transform(word.begin()+1,word.end(),numStr.begin()+1,::consanantsToNumber());
+   transform(word.begin(),word.end(),numStr.begin(),::consanantsToNumber());
    return numStr;
 }
 

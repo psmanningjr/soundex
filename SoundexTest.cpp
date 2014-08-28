@@ -28,3 +28,8 @@ TEST_F(SoundexEncoding, GivenAWordWhereAdjacentLettersEncodeTheSameThenKeepTheFi
 {
     ASSERT_THAT(soundex.encode("xDtNmpv"), Eq("X351"));
 }
+
+TEST_F(SoundexEncoding, GivenAWordWhereFirstLetterWouldCodeToSameAsSecondLeterThenSecondLetterDropped)
+{
+    ASSERT_THAT(soundex.encode("xJrmD"), Eq("X653"));
+}

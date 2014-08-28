@@ -14,7 +14,7 @@ public:
 
 private:
     string encodeNonFirstLetters(const string& word);
-    string convertNonFirstLettersToNumbers(const string& word);
+    string convertLettersToNumbers(const string& word);
     string removeDuplicates(const string& word);
 //    int consanantsToNumber(int letter);
 };
