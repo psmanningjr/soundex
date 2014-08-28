@@ -49,6 +49,11 @@ TEST_F(SoundexEncoding, GivenWordWithSameCodewithHBetweenMultipleTimesThenEncode
     ASSERT_THAT(soundex.encode("GhcrLfhp"), Eq("G641"));
 }
 
+TEST_F(SoundexEncoding, GivenWordEncodedToMoreThanFourCharsThenItIsClippedAtFourChars)
+{
+    ASSERT_THAT(soundex.encode("Yabgdyr"), Eq("Y123"));
+}
+
 TEST_F(SoundexEncoding, GivenWordWithVowelsThenVowelsAreRemoved)
 {
     ASSERT_THAT(soundex.encode("rjakB"), Eq("R221"));

@@ -154,7 +154,7 @@ string Soundex::encodeNonFirstLetters(const string& word)
     string numEncodedStr = removeDuplicates(convertLettersToNumbers(word));
     numEncodedStr = removeDuplicatesAroundH(numEncodedStr);
     numEncodedStr = removeVowelsAndY(numEncodedStr);
-    return word.substr(0,1).append(numEncodedStr.substr(1,numEncodedStr.length()-1));
+    return word.substr(0,1).append(numEncodedStr.substr(1,3));
 }
 
 string Soundex::convertLettersToNumbers(const string& word)
