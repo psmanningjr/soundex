@@ -27,7 +27,13 @@ public:
 
           {'r','6'},
           {'h','H'},
-          {'g','G'}
+          {'g','G'},
+          {'a','A'},
+          {'e','E'},
+          {'i','I'},
+          {'o','O'},
+          {'u','U'},
+          {'y','Y'}
       };
       auto encodeResult = encodings.find(tolower(letter));
 
@@ -78,6 +84,46 @@ private:
 
 };
 
+struct NoVowelsOrYString
+{
+public:
+    NoVowelsOrYString()
+    {
+        noVowelsOrYString = "";
+    }
+
+    void operator() (char letter)
+    {
+        if (EmptyString() ||
+            letterToKeep(letter))
+        {
+            addLetter(letter);
+        }
+    }
+
+    string noVowelsOrYString;
+
+private:
+
+    const string charsToRemove = "aeiouy";
+
+    bool EmptyString()
+    {
+        return (noVowelsOrYString.length() == 0);
+    }
+
+    bool letterToKeep(char letter)
+    {
+        return (charsToRemove.find(tolower(letter)) == string::npos);
+    }
+
+    void addLetter(char letter)
+    {
+        noVowelsOrYString.push_back(letter);
+    }
+
+};
+
 Soundex::Soundex()
 {
 }
@@ -107,6 +153,7 @@ string Soundex::encodeNonFirstLetters(const string& word)
 {
     string numEncodedStr = removeDuplicates(convertLettersToNumbers(word));
     numEncodedStr = removeDuplicatesAroundH(numEncodedStr);
+    numEncodedStr = removeVowelsAndY(numEncodedStr);
     return word.substr(0,1).append(numEncodedStr.substr(1,numEncodedStr.length()-1));
 }
 
@@ -174,4 +221,11 @@ void Soundex::removeH()
 void Soundex::removeHAndLetterAfter()
 {
     newStr.erase(indexOfH,2);
+}
+
+string Soundex::removeVowelsAndY(const string& word)
+{
+    NoVowelsOrYString noVowelStr = for_each(word.begin(), word.end(), NoVowelsOrYString());
+    return noVowelStr.noVowelsOrYString;
+    return word;
 }

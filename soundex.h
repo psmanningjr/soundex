@@ -25,6 +25,7 @@ private:
     bool letterAfterH();
     bool sameCodeBeforeAndAfterH();
     bool dupAroundH();
+    string removeVowelsAndY(const string& word);
 
     size_t indexOfH;
     string newStr;
