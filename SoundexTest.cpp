@@ -54,6 +54,11 @@ TEST_F(SoundexEncoding, GivenWordWithSameCodewithWBetweenThenEncodeRetainsFirstA
     ASSERT_THAT(soundex.encode("cwxrLf"), Eq("C641"));
 }
 
+TEST_F(SoundexEncoding, GivenWordWithSameCodewithHBetweenMultipleTimesThenEncodeRetainsFirstAndRemovesW)
+{
+    ASSERT_THAT(soundex.encode("xwcrLfwp"), Eq("X641"));
+}
+
 TEST_F(SoundexEncoding, GivenWordEncodedToMoreThanFourCharsThenItIsClippedAtFourChars)
 {
     ASSERT_THAT(soundex.encode("Yabgdyr"), Eq("Y123"));
