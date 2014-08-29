@@ -27,6 +27,7 @@ public:
 
           {'r','6'},
           {'h','H'},
+          {'w','W'},
           {'g','G'},
           {'a','A'},
           {'e','E'},
@@ -152,7 +153,8 @@ string Soundex::firstLetterToUpperCase(const string& word)
 string Soundex::encodeNonFirstLetters(const string& word)
 {
     string numEncodedStr = removeDuplicates(convertLettersToNumbers(word));
-    numEncodedStr = removeDuplicatesAroundH(numEncodedStr);
+    numEncodedStr = removeDuplicatesAroundTargetChar('h',numEncodedStr);
+    numEncodedStr = removeDuplicatesAroundTargetChar('w',numEncodedStr);
     numEncodedStr = removeVowelsAndY(numEncodedStr);
     return word.substr(0,1).append(numEncodedStr.substr(1,3));
 }
@@ -170,57 +172,58 @@ string Soundex::removeDuplicates(const string& word)
     return newStr.noDupString;
 }
 
-string Soundex::removeDuplicatesAroundH(const string& word)
+string Soundex::removeDuplicatesAroundTargetChar(char targetSpecialChar, const string& word)
 {
+    targetChar = toupper(targetSpecialChar);
     newStr = word;
-    while (anotherHFound())
+    while (anotherTargetCharFound())
     {
-        if (dupAroundH())
+        if (dupAroundTargetChar())
         {
-            removeHAndLetterAfter();
+            removeTargetCharAndLetterAfter();
         }
         else
         {
-            removeH();
+            removeTargetChar();
         }
     }
     return newStr;
 }
 
-bool Soundex::dupAroundH()
+bool Soundex::dupAroundTargetChar()
 {
-    return (letterBeforeH() && letterAfterH() && sameCodeBeforeAndAfterH());
+    return (letterBeforeTargetChar() && letterAfterTargetChar() && sameCodeBeforeAndAfterTargetChar());
 }
 
-bool Soundex::letterBeforeH()
+bool Soundex::letterBeforeTargetChar()
 {
-    return(indexOfH >0);
+    return(indexOfSpecialChar >0);
 }
 
-bool Soundex::letterAfterH()
+bool Soundex::letterAfterTargetChar()
 {
-    return(indexOfH < newStr.length());
+    return(indexOfSpecialChar < newStr.length());
 }
 
-bool Soundex::sameCodeBeforeAndAfterH()
+bool Soundex::sameCodeBeforeAndAfterTargetChar()
 {
-    return(newStr[indexOfH-1] == newStr[indexOfH+1]);
+    return(newStr[indexOfSpecialChar-1] == newStr[indexOfSpecialChar+1]);
 }
 
-bool Soundex::anotherHFound()
+bool Soundex::anotherTargetCharFound()
 {
-    indexOfH = newStr.find("H");
-    return (indexOfH != string::npos);
+    indexOfSpecialChar = newStr.find(targetChar);
+    return (indexOfSpecialChar != string::npos);
 }
 
-void Soundex::removeH()
+void Soundex::removeTargetChar()
 {
-    newStr.erase(indexOfH,1);
+    newStr.erase(indexOfSpecialChar,1);
 }
 
-void Soundex::removeHAndLetterAfter()
+void Soundex::removeTargetCharAndLetterAfter()
 {
-    newStr.erase(indexOfH,2);
+    newStr.erase(indexOfSpecialChar,2);
 }
 
 string Soundex::removeVowelsAndY(const string& word)
