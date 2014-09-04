@@ -7,6 +7,8 @@
 using namespace std;
 
 const char notADigit{'*'};
+static const size_t MaxCode_Length{4};
+
 
 class consanantsToNumber: unary_function<char, char> {
 public:
@@ -156,6 +158,8 @@ string Soundex::encodeNonFirstLetters(const string& word)
     numEncodedStr = removeDuplicatesAroundTargetChar('h',numEncodedStr);
     numEncodedStr = removeDuplicatesAroundTargetChar('w',numEncodedStr);
     numEncodedStr = removeVowelsAndY(numEncodedStr);
+    numEncodedStr = makeCorrectLengthByClippingOrZeroPadding(numEncodedStr);
+    numEncodedStr.resize(MaxCode_Length,'0');
     return word.substr(0,1).append(numEncodedStr.substr(1,3));
 }
 
@@ -231,4 +235,11 @@ string Soundex::removeVowelsAndY(const string& word)
     NoVowelsOrYString noVowelStr = for_each(word.begin(), word.end(), NoVowelsOrYString());
     return noVowelStr.noVowelsOrYString;
     return word;
+}
+
+string Soundex::makeCorrectLengthByClippingOrZeroPadding(const string& word)
+{
+    string numEncodedStr = word;
+    numEncodedStr.resize(MaxCode_Length,'0');
+    return numEncodedStr;
 }

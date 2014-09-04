@@ -26,7 +26,7 @@ private:
     bool sameCodeBeforeAndAfterTargetChar();
     bool dupAroundTargetChar();
     string removeVowelsAndY(const string& word);
-
+    string makeCorrectLengthByClippingOrZeroPadding(const string& word);
     char targetChar;
     size_t indexOfSpecialChar;
     string newStr;

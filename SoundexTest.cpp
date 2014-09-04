@@ -68,3 +68,8 @@ TEST_F(SoundexEncoding, GivenWordWithVowelsThenVowelsAreRemoved)
 {
     ASSERT_THAT(soundex.encode("rjakB"), Eq("R221"));
 }
+
+TEST_F(SoundexEncoding, GivenWordThatEncodesToLessDigitAndThreeCodeThenPadWithZeros)
+{
+    ASSERT_THAT(soundex.encode("h"), Eq("H000"));
+}
