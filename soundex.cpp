@@ -127,6 +127,44 @@ private:
 
 };
 
+struct NoInvalidCharsString
+{
+public:
+    NoInvalidCharsString()
+    {
+        noInvalidCharsString = "";
+    }
+
+    void operator() (char letter)
+    {
+        if (EmptyString() ||
+            letterToKeep(letter))
+        {
+            addLetter(letter);
+        }
+    }
+
+    string noInvalidCharsString;
+
+private:
+
+    bool EmptyString()
+    {
+        return (noInvalidCharsString.length() == 0);
+    }
+
+    bool letterToKeep(char letter)
+    {
+        return (letter != notADigit);
+    }
+
+    void addLetter(char letter)
+    {
+        noInvalidCharsString.push_back(letter);
+    }
+
+};
+
 Soundex::Soundex()
 {
 }
@@ -158,6 +196,7 @@ string Soundex::encodeNonFirstLetters(const string& word)
     numEncodedStr = removeDuplicatesAroundTargetChar('h',numEncodedStr);
     numEncodedStr = removeDuplicatesAroundTargetChar('w',numEncodedStr);
     numEncodedStr = removeVowelsAndY(numEncodedStr);
+    numEncodedStr = removeInvalidChars(numEncodedStr);
     numEncodedStr = makeCorrectLengthByClippingOrZeroPadding(numEncodedStr);
     numEncodedStr.resize(MaxCode_Length,'0');
     return word.substr(0,1).append(numEncodedStr.substr(1,3));
@@ -237,6 +276,12 @@ string Soundex::removeVowelsAndY(const string& word)
     return word;
 }
 
+string Soundex::removeInvalidChars(const string& word)
+{
+    NoInvalidCharsString noInvalidStr = for_each(word.begin(), word.end(), NoInvalidCharsString());
+    return noInvalidStr.noInvalidCharsString;
+    return word;
+}
 string Soundex::makeCorrectLengthByClippingOrZeroPadding(const string& word)
 {
     string numEncodedStr = word;

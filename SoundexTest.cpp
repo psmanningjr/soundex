@@ -73,3 +73,8 @@ TEST_F(SoundexEncoding, GivenWordThatEncodesToLessDigitAndThreeCodeThenPadWithZe
 {
     ASSERT_THAT(soundex.encode("h"), Eq("H000"));
 }
+
+TEST_F(SoundexEncoding, GivenWordWithUnknownEncodeingCharsThenSkipThose)
+{
+    ASSERT_THAT(soundex.encode("m*bk"), Eq("M120"));
+}
